@@ -3,9 +3,7 @@
  * Author: Mosa Amran Alawadhi
  */
 
-import java.util.AbstractList;
-
-public class DoublyLinkedList<E> extends AbstractList<E> {
+public class DoublyLinkedList<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
@@ -22,7 +20,6 @@ public class DoublyLinkedList<E> extends AbstractList<E> {
         return (head.getNext() == tail);
     }
 
-    @Override
     public int size() {
         if (isEmpty())
             throw new RuntimeException("The list is empty");
@@ -38,13 +35,11 @@ public class DoublyLinkedList<E> extends AbstractList<E> {
         return this.size;
     }
 
-    @Override
     public boolean add(E element) {
         this.addBetween(element, tail.getPrev(), tail);
         return true;
     }
 
-    @Override
     public void add(int index, E element) {
         Node<E> oldNode = getNode(index);
         this.addBetween(element, oldNode.getPrev(), oldNode);
@@ -68,7 +63,6 @@ public class DoublyLinkedList<E> extends AbstractList<E> {
         size++;
     }
 
-    @Override
     public E set(int index, E element) {
         Node<E> node = getNode(index);
         E oldElement = node.getElement();
@@ -76,10 +70,20 @@ public class DoublyLinkedList<E> extends AbstractList<E> {
         return oldElement;
     }
 
-    @Override
     public E remove(int index) {
         // Remove node from circular linked list
         Node<E> nodeToRemove = getNode(index);
+        Node<E> prevNode = nodeToRemove.getPrev();
+        Node<E> nextNode = nodeToRemove.getNext();
+        prevNode.setNext(nextNode);
+        nextNode.setPrev(prevNode);
+        size--;
+        return nodeToRemove.getElement();
+    }
+
+    public E remove(E object) {
+        // Remove node from circular linked list
+        Node<E> nodeToRemove = getNode(get(object));
         Node<E> prevNode = nodeToRemove.getPrev();
         Node<E> nextNode = nodeToRemove.getNext();
         prevNode.setNext(nextNode);
@@ -145,7 +149,6 @@ public class DoublyLinkedList<E> extends AbstractList<E> {
         tail.getPrev().setNext(tail);
     }
 
-    @Override
     public E get(int index) {
         return this.getNode(index).getElement();
     }
