@@ -11,10 +11,12 @@ public class MobilePhone {
         contacts.add(contact);
     }
 
-    public void removeContact(Contact contact) {
+    public void removeContact(String name) {
+        Contact contact = searchContactByName(name);
         deletedContacts.push(contacts.remove(contact));
     }
 
+    
     public Contact restoreContact() {
         Contact restored = deletedContacts.pop();
         contacts.add(restored);
